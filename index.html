@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>STUDIO — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@48,700&family=Noto+Sans+KR:wght@300..600&family=Noto+Serif+Display:wdth,wght@92,300..400&family=Noto+Serif+KR:wght@300..700&family=Urbanist:wght@300..600&display=swap">
+<style>
+:root{
+  --paper:#f7f2ee;--ink:#1b1a19;--ink-2:#5c5854;--ink-3:#716c67;--line:#ddd6cf;--line-strong:#b5afa9;--night:#121112;
+  --display:'Noto Serif Display','Noto Serif KR','Times New Roman','AppleMyungjo','Batang',serif;
+  --head:'Bodoni Moda','Noto Serif KR','Times New Roman','AppleMyungjo','Batang',serif;
+  --sans:'Urbanist','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  --ease:cubic-bezier(.19,1,.22,1);
+  --gutter:9.5vw;--bar:clamp(68px,5.7vw,82px);--u:1vh;
+}
+@supports (height:1svh){:root{--u:1svh}}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scrollbar-width:thin;scrollbar-color:#c9c1b9 var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 13px/1.9 var(--sans);-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
+h1,h2,h3,p,ul{margin:0}
+ul{padding:0;list-style:none}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;border-radius:0;padding:0;cursor:pointer;text-align:inherit;-webkit-tap-highlight-color:transparent}
+button:disabled{cursor:default}
+a{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:1.5px solid currentColor;outline-offset:5px}
+::selection{background:var(--ink);color:var(--paper)}
+[hidden]{display:none!important}
+
+/* type */
+.display{font-family:var(--display);font-weight:300;font-size:var(--fs);line-height:1.06;letter-spacing:-.01em;text-transform:uppercase;font-variant-numeric:lining-nums;white-space:pre-line;overflow-wrap:normal;text-wrap:balance}
+.display.ko{font-size:calc(var(--fs)*.78);line-height:1.2;letter-spacing:-.03em}
+.label{font:400 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;font-variant-numeric:tabular-nums lining-nums}
+.ko.label,.label .ko{letter-spacing:.06em}
+
+/* arrow link: the one control the page repeats */
+.go{display:inline-flex;align-items:center;gap:clamp(8px,1vw,14px);min-height:44px;font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.go .ko{font-size:12px;font-weight:500;letter-spacing:.07em}
+.go i{position:relative;flex:none;width:72px;height:7px}
+.go i::before{content:'';position:absolute;left:0;top:3px;width:58px;height:1px;background:currentColor;transform-origin:left;transition:transform .6s var(--ease)}
+.go i::after{content:'';position:absolute;left:54px;top:0;border-style:solid;border-width:3.5px 0 3.5px 6px;border-color:transparent transparent transparent currentColor;transition:transform .6s var(--ease)}
+.go:hover i::before,.go:focus-visible i::before,.feature:has(.feature-photo:hover) .go i::before,.next:hover .go i::before{transform:scaleX(1.24)}
+.go:hover i::after,.go:focus-visible i::after,.feature:has(.feature-photo:hover) .go i::after,.next:hover .go i::after{transform:translateX(14px)}
+.go.back i{transform:scaleX(-1)}
+
+/* photo frame + empty plate */
+.photo{position:relative;display:block;overflow:hidden;background:#e4ddd6}
+.photo>img,.photo>.plate{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.5s var(--ease)}
+.plate{display:grid;place-items:center;background:var(--tone,#d5cec6);color:var(--tone-ink,#b9b1a8)}
+.plate svg{width:44%;height:44%;overflow:visible}
+.plate text{font:300 64px var(--display);fill:currentColor;font-variant-numeric:lining-nums}
+.plate-label{position:absolute;left:8%;right:8%;bottom:7%;font:400 10.5px/1.5 var(--sans);letter-spacing:.12em;text-align:center;color:var(--tone-label,#57514b)}
+.plate.t2{--tone:#cfcdc8;--tone-ink:#b3b0aa;--tone-label:#55524e}
+.plate.dark{--tone:#3b3a37;--tone-ink:#565450;--tone-label:#b5b1ab}
+.plate.light{--tone:#d9d8d5;--tone-ink:#bdbbb7;--tone-label:#55524e}
+.plate.night{--tone-ink:rgba(255,255,255,.075);--tone-label:rgba(255,255,255,.62)}
+.plate.n1{background:radial-gradient(120% 90% at 62% 108%,#3a3938 0%,rgba(58,57,56,0) 62%),#171617}
+.plate.n2{background:radial-gradient(120% 90% at 30% 108%,#423c36 0%,rgba(66,60,54,0) 62%),#1d1a18}
+.plate.n3{background:radial-gradient(120% 90% at 78% 104%,#353a3f 0%,rgba(53,58,63,0) 62%),#15181a}
+.plate.night svg{width:34%;height:46%;margin-top:20%}
+.plate.night .plate-label{left:auto;right:2.9vw;top:22px;bottom:auto;text-align:right}
+
+/* header */
+.top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;column-gap:16px;height:var(--bar);padding:0 var(--gutter)}
+.nav{display:flex;align-items:center;gap:clamp(18px,3.1vw,45px);color:var(--ink-2)}
+.nav a{position:relative;margin:0 -6px;padding:16px 6px;transition:color .3s}
+.nav a::after{content:'';position:absolute;left:6px;right:6px;bottom:8px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .6s var(--ease)}
+.nav a:hover,.nav a:focus-visible{color:var(--ink)}
+.nav a:hover::after,.nav a:focus-visible::after{transform:scaleX(1)}
+.mark{display:grid;place-items:center;width:clamp(52px,4.3vw,62px);aspect-ratio:1;border:1px solid #8c8782;border-radius:999px;font:500 clamp(8px,.63vw,9px)/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;color:var(--ink-2);transition:color .3s,border-color .3s}
+.mark:hover{color:var(--ink);border-color:var(--ink)}
+.mark.is-long{width:auto;aspect-ratio:auto;height:clamp(38px,3.4vw,48px);padding:0 20px}
+.meta{display:flex;align-items:center;justify-content:flex-end;gap:clamp(10px,1.5vw,22px);color:var(--ink-2)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--ink)}
+
+/* 1 · hero */
+.hero{position:relative;height:min(57vw,calc(var(--u)*100 - var(--bar)));min-height:440px;overflow:hidden;isolation:isolate;background:var(--night);color:#fff;touch-action:pan-y}
+.slide{position:absolute;inset:0;overflow:hidden;opacity:0}
+.slide.is-on{z-index:2;opacity:1;transition:opacity 1.7s cubic-bezier(.4,0,.2,1)}
+.slide.was-on{z-index:1;opacity:1}
+.slide>img,.slide>.plate{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slide.is-on>*,.slide.was-on>*{animation:drift 9s cubic-bezier(.2,.7,.3,1) both}
+@keyframes drift{from{transform:scale(1.07)}to{transform:scale(1)}}
+.slide::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(12,10,11,calc(var(--veil,.2) + .16)) 0%,rgba(12,10,11,var(--veil,.2)) 18%,rgba(12,10,11,var(--veil,.2)) 54%,rgba(12,10,11,var(--low,.6)) 74%,rgba(12,10,11,var(--low,.6)) 100%)}
+.hero-copy{position:absolute;z-index:4;left:0;right:0;top:24%;padding:0 7vw;text-align:center;pointer-events:none}
+.hero-title{--fs:clamp(32px,4.87vw,74px);font-weight:340;max-width:86vw;margin:0 auto;text-shadow:0 1px 34px rgba(0,0,0,.28)}
+.hero-sub{margin-top:clamp(16px,3vw,44px);font:400 12px/1.8 var(--sans);letter-spacing:.14em;text-transform:uppercase;text-shadow:0 0 18px rgba(0,0,0,.35)}
+.hero-sub.ko{font-size:12.5px;letter-spacing:.08em}
+.hero-foot{position:absolute;z-index:4;left:4vw;right:2.9vw;bottom:clamp(8px,1.2vw,18px);display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.hero-caption{max-width:30em;font:400 12px/1.95 var(--sans);letter-spacing:.1em;text-transform:uppercase;white-space:pre-line;text-shadow:0 0 18px rgba(0,0,0,.35)}
+.hero-caption.ko{font-size:12.5px;letter-spacing:.04em}
+.hero-caption+.go{margin-top:clamp(6px,2vw,28px)}
+.hero-index{display:flex;align-items:center}
+.hero-index button{position:relative;width:36px;height:44px;font:500 11px/1 var(--sans);letter-spacing:.08em;text-align:center;font-variant-numeric:tabular-nums lining-nums;opacity:.7;transition:opacity .4s}
+.hero-index button:hover{opacity:.9}
+.hero-index button[aria-current="true"]{opacity:1}
+.hero-index b{position:absolute;left:9px;right:9px;bottom:9px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left}
+.hero-index .toggle{margin-right:4px;opacity:.72}
+.hero-index svg{display:block;width:10px;height:10px;margin:auto;fill:none;stroke:currentColor;stroke-width:1.3}
+.hero-index .i-play{fill:currentColor;stroke:none}
+.hero-index .toggle:not(.is-held) .i-play,.hero-index .toggle.is-held .i-pause{display:none}
+
+/* 2 · two works */
+.works{padding:clamp(76px,12vw,174px) 0 clamp(72px,11.5vw,166px);--card-h:clamp(250px,33.3vw,calc(var(--u)*64));--card-w:calc(var(--card-h)*.75)}
+.works-title{width:max-content;max-width:calc(100vw - 2*var(--gutter));margin:0 auto clamp(30px,4vw,57px);font:700 clamp(21px,2.3vw,33px)/1.12 var(--head);letter-spacing:-.04em;white-space:pre-line}
+.works-title.ko{font-family:'Noto Serif KR',var(--head);font-size:clamp(20px,2.05vw,30px);font-weight:600;line-height:1.36;letter-spacing:-.035em}
+.strip{position:relative;width:max-content;margin:0 auto}
+.side{position:absolute;right:calc(100% + clamp(22px,3.4vw,50px));top:calc(var(--card-h)/2);transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;text-orientation:sideways;font:700 clamp(18px,2vw,28px)/1.3 var(--head);letter-spacing:-.04em;white-space:pre}
+.side.ko{font-family:'Noto Serif KR',var(--head);font-weight:600;letter-spacing:-.03em}
+.cards{display:flex;gap:clamp(10px,1.8vw,26px)}
+.card{display:block;width:var(--card-w);text-align:center}
+.card .photo{height:var(--card-h)}
+.card:hover .photo>*,.card:focus-visible .photo>*,.feature-photo:hover .photo>*,.shot:hover .photo>*{transform:scale(1.035)}
+.cap{display:block;padding-top:19px}
+.cap>span{display:block}
+.cap-title{font:500 12px/1.6 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+.cap-title.ko{letter-spacing:.05em}
+.cap-cat{margin-top:5px;font:400 12.5px/1.6 var(--sans);color:var(--ink-2)}
+.cap-year{margin-top:5px;font:400 12px/1.6 var(--sans);letter-spacing:.06em;color:var(--ink-3)}
+.works-foot{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:clamp(30px,3.6vw,51px)}
+.rule{position:relative;flex:0 0 46%;height:1px;background:var(--line)}
+.rule i{position:absolute;left:0;top:-1px;width:calc(100%/var(--n,2));height:3px;background:var(--line-strong);transform:translateX(calc(var(--at,0)*100%));transition:transform .8s var(--ease)}
+.hint{font:400 12px/1.6 var(--sans);color:var(--ink-3);text-align:right}
+
+/* 3 · 4 · one project each, photo flush to alternate edges */
+main{padding-bottom:clamp(84px,13.8vw,200px)}
+.feature{display:grid;grid-template-columns:61vw minmax(0,1fr);align-items:end}
+.feature+.feature{margin-top:clamp(84px,13.8vw,200px)}
+.feature-photo{display:block;width:100%}
+.feature-photo .photo{aspect-ratio:5/4;max-height:calc(var(--u)*92)}
+.feature-copy{min-width:0;padding:0 4vw 0 6.3vw}
+.feature-title{--fs:clamp(40px,6.9vw,100px)}
+.feature-text{max-width:31em;margin:clamp(14px,2.7vw,39px) 0 clamp(14px,3.2vw,46px);font:400 13px/2 var(--sans);color:var(--ink-2);white-space:pre-line}
+.feature-text:not(.ko){max-width:min(23vw,27em);font-size:12px;letter-spacing:.09em;text-transform:uppercase}
+.feature-copy .go{margin-bottom:-14px}
+.feature.flip{grid-template-columns:minmax(0,1fr) 61vw}
+.feature.flip .feature-photo{grid-column:2;grid-row:1}
+.feature.flip .feature-copy{grid-column:1;grid-row:1;padding:0 4vw 0 var(--gutter)}
+
+/* footer */
+.foot{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;margin:0 var(--gutter);padding:24px 0 28px;border-top:1px solid var(--line);color:var(--ink-2)}
+.foot .mark{justify-self:start}
+.foot .go{justify-self:end;gap:12px}
+.foot .go svg{width:7px;height:26px;fill:currentColor;stroke:currentColor;stroke-width:1;overflow:visible;transition:transform .6s var(--ease)}
+.foot .go:hover svg,.foot .go:focus-visible svg{transform:translateY(-5px)}
+
+/* project page */
+.detail-bar{position:sticky;top:0;z-index:6;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;column-gap:16px;height:64px;padding:0 var(--gutter);background:var(--paper);border-bottom:1px solid var(--line)}
+.detail-bar .go{justify-self:start}
+.detail-bar .go:last-child{justify-self:end}
+.detail-count{color:var(--ink-2)}
+.spread{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start}
+.detail-cover{position:sticky;top:64px;width:min(46vw,calc((var(--u)*100 - 64px)*var(--r,1.25)))}
+.detail-cover .photo{aspect-ratio:var(--r,1.25)}
+.detail-copy{min-width:0;padding:clamp(40px,6.4vw,92px) var(--gutter) clamp(40px,5vw,72px) 6.3vw}
+.detail-title{--fs:clamp(36px,5.55vw,82px)}
+.detail-meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:clamp(18px,2.2vw,32px);line-height:1.6;color:var(--ink-2)}
+.detail-meta span+span::before{content:'';display:inline-block;width:18px;height:1px;margin-right:20px;vertical-align:middle;background:var(--line-strong)}
+.detail-text{max-width:34em;margin-top:clamp(22px,3.2vw,46px);font:400 15px/1.95 var(--sans);color:#3b3835;white-space:pre-line}
+.detail.flip .spread{grid-template-columns:minmax(0,1fr) auto}
+.detail.flip .detail-cover{grid-column:2;grid-row:1}
+.detail.flip .detail-copy{grid-column:1;grid-row:1;padding-left:var(--gutter);padding-right:6.3vw}
+.shots{padding:clamp(72px,11vw,160px) 0 clamp(64px,9.6vw,138px)}
+.shots .strip{width:auto;margin:0 var(--gutter) 0 16.45vw}
+.shots-row{display:flex;align-items:flex-start;gap:clamp(10px,1.8vw,26px);max-width:calc(var(--sum,2.25)*min(var(--u)*62,30vw) + (var(--n,3) - 1)*clamp(10px,1.8vw,26px))}
+.shots-row li{flex:var(--r,.75) 1 0;min-width:0}
+.shot{display:block;width:100%;text-align:center}
+.shot:not(:disabled){cursor:zoom-in}
+.shot .photo{aspect-ratio:var(--r,.75)}
+.next{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;width:calc(100% - 2*var(--gutter));margin:0 var(--gutter);padding:clamp(26px,3.6vw,52px) 0 clamp(30px,4vw,58px);border-top:1px solid var(--line)}
+.next-title{--fs:clamp(29px,4.6vw,67px);min-width:0}
+.next .go{margin-bottom:-10px}
+
+/* zoomed photo */
+.probe{position:fixed;inset:0;visibility:hidden;pointer-events:none}
+.lb{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;overflow:hidden;overscroll-behavior:contain;background:var(--night);color:#fff}
+.lb::backdrop{background:var(--night)}
+.lb-stage{position:absolute;inset:64px clamp(16px,6vw,90px) 96px;display:grid;grid-template:minmax(0,1fr)/minmax(0,1fr);place-items:center;touch-action:pan-y pinch-zoom}
+.lb-stage img{width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain}
+.lb-stage .plate{position:relative;width:min(100%,620px);aspect-ratio:4/3}
+.lb-close{position:absolute;z-index:2;top:10px;right:clamp(6px,4vw,58px);display:grid;place-items:center;width:44px;height:44px;opacity:.8;transition:opacity .3s}
+.lb-close:hover{opacity:1}
+.lb-close svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.2}
+.lb-foot{position:absolute;left:clamp(16px,6vw,90px);right:clamp(16px,6vw,90px);bottom:16px;display:grid;grid-template-columns:72px minmax(0,1fr) 72px;align-items:center;gap:16px;text-align:center}
+.lb-foot .go{gap:0}
+.lb-cap{margin-top:8px;font:400 12.5px/1.6 var(--sans);color:rgba(255,255,255,.74)}
+.lb.is-single .lb-foot .go{visibility:hidden}
+
+/* motion: things are unveiled from the edge they sit on */
+.anim .hero-copy>*,.anim .hero-foot>*{opacity:0;transform:translateY(20px);transition:opacity 1.3s var(--ease),transform 1.5s var(--ease)}
+.anim.is-ready .hero-copy>*,.anim.is-ready .hero-foot>*{opacity:1;transform:none}
+.anim.is-ready .hero-sub{transition-delay:.16s}
+.anim.is-ready .hero-foot>*{transition-delay:.34s}
+.anim [data-rv="wipe"] .photo{clip-path:inset(0 100% 0 0);transition:clip-path 1.6s var(--ease)}
+.anim .flip>[data-rv="wipe"] .photo{clip-path:inset(0 0 0 100%)}
+.anim [data-rv="lift"] .photo{clip-path:inset(100% 0 0 0);transition:clip-path 1.5s var(--ease) var(--d,0s)}
+.anim [data-rv].in .photo{clip-path:inset(0)}
+.anim [data-rv="wipe"]:not(.in) .photo>*,.anim [data-rv="lift"]:not(.in) .photo>*{transform:scale(1.14)}
+.anim [data-rv="lift"] .cap{opacity:0;transition:opacity 1.2s var(--ease) calc(var(--d,0s) + .35s)}
+.anim [data-rv="lift"].in .cap{opacity:1}
+.anim [data-rv="rise"]>*{opacity:0;transform:translateY(24px);transition:opacity 1.2s var(--ease),transform 1.4s var(--ease)}
+.anim [data-rv="rise"].in>*{opacity:1;transform:none}
+.anim [data-rv="rise"]>:nth-child(2){transition-delay:.12s}
+.anim [data-rv="rise"]>:nth-child(3){transition-delay:.24s}
+.anim [data-rv="fade"]{opacity:0;transition:opacity 1.4s var(--ease) .2s}
+.anim [data-rv="fade"].in{opacity:1}
+.detail.is-entering{animation:enter .7s var(--ease) both}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}}
+.lb.is-entering{animation:lb-in .4s ease both}
+@keyframes lb-in{from{opacity:0}}
+.lb-stage>*{animation:lb-in .45s ease both}
+::view-transition-group(photo){animation-duration:.8s;animation-timing-function:cubic-bezier(.3,0,.1,1)}
+::view-transition-old(photo),::view-transition-new(photo){width:100%;height:100%;object-fit:cover}
+::view-transition-old(root){animation-duration:.32s}
+::view-transition-new(root){animation-duration:.6s;animation-delay:.14s}
+
+@media (max-width:760px){
+  :root{--gutter:22px;--bar:60px}
+  .top{padding:0 18px;column-gap:10px}
+  .nav{gap:16px}
+  .label{font-size:10.5px;letter-spacing:.12em}
+  .w{display:none}
+  .mark{width:48px;font-size:8px;letter-spacing:.06em}
+  .mark.is-long{padding:0 14px}
+  .hero{height:min(150vw,calc(var(--u)*100 - var(--bar)));min-height:470px}
+  .hero-copy{top:19%;padding:0 22px}
+  .hero-title{--fs:clamp(30px,9.7vw,50px);font-weight:380}
+  .hero-foot{left:22px;right:8px;bottom:10px}
+  .hero-index button{width:30px}
+  .go i{width:50px}
+  .go i::before{width:36px}
+  .go:hover i::before,.go:focus-visible i::before{transform:scaleX(1.38)}
+  .go i::after{left:32px}
+  .works{padding:76px 0 72px;--card-w:calc((100vw - 92px)/2);--card-h:calc(var(--card-w)*4/3)}
+  .works-title{font-size:23px}
+  .works-title.ko{font-size:21px}
+  .strip{width:auto;margin:0 18px 0 64px}
+  .side{right:calc(100% + 10px);font-size:17px}
+  .cards{gap:10px}
+  .cap{padding-top:13px}
+  .cap-title{font-size:10.5px;letter-spacing:.1em}
+  .cap-cat{font-size:12px}
+  .works-foot{flex-direction:column;align-items:flex-start;gap:16px;margin-top:26px}
+  .rule{flex:none;width:58%}
+  .hint{text-align:left}
+  .feature,.feature.flip{display:block}
+  .feature-photo{width:88%}
+  .feature.flip .feature-photo{margin-left:12%}
+  .feature-copy,.feature.flip .feature-copy{padding:34px 22px 0}
+  .feature-title{--fs:clamp(36px,12vw,58px)}
+  .feature-title,.detail-title,.next-title{font-weight:340}
+  .feature-text{margin:20px 0 10px;font-size:14px;line-height:1.95}
+  .feature-text:not(.ko){max-width:none;font-size:12.5px}
+  .feature-copy .go{margin-bottom:0}
+  .foot{grid-template-columns:auto 1fr;row-gap:10px;padding:20px 0 26px}
+  .foot p{grid-column:1/-1;grid-row:2}
+  .detail-bar{grid-template-columns:1fr auto;height:56px}
+  .detail-bar .go:last-child{display:none}
+  .spread,.detail.flip .spread{display:block}
+  .detail-cover{position:static;width:88%}
+  .detail.flip .detail-cover{margin-left:12%}
+  .detail-copy,.detail.flip .detail-copy{padding:36px 22px 0}
+  .detail-title{--fs:clamp(34px,11vw,55px)}
+  .detail-text{font-size:15px}
+  .shots{padding:64px 0 60px}
+  .shots .strip{margin:0 22px}
+  .shots .side{position:static;transform:none;writing-mode:horizontal-tb;margin-bottom:22px;font-size:21px;white-space:normal}
+  .shots-row{display:block;max-width:none}
+  .shots-row li+li{margin-top:34px}
+  .shot .cap{padding-top:12px;text-align:left}
+  .next{flex-direction:column;align-items:flex-start;gap:8px}
+  .next-title{--fs:clamp(27px,8.8vw,42px)}
+  .next .go{margin-bottom:0}
+  .lb-stage{inset:58px 12px 92px}
+}
+@media (hover:none){.rule{display:none}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
+}
+</style>
+</head>
+<body>
+<div id="home">
+  <header class="top">
+    <nav class="nav label" id="nav" aria-label="주 메뉴"></nav>
+    <a class="mark" href="#home"><span data-brand></span></a>
+    <p class="meta label"><span class="w">Portfolio</span><span data-year></span><i class="dot"></i></p>
+  </header>
+  <main>
+    <section class="hero" id="hero" aria-roledescription="carousel" aria-label="대표 사진 슬라이드">
+      <div id="slides"></div>
+      <div class="hero-copy">
+        <h1 class="display hero-title" id="hero-title"></h1>
+        <p class="hero-sub" id="hero-sub"></p>
+      </div>
+      <div class="hero-foot">
+        <div class="hero-note">
+          <p class="hero-caption" id="hero-caption"></p>
+          <a class="go" href="#works"><i></i><span class="ko">포트폴리오 살펴보기</span></a>
+        </div>
+        <div class="hero-index" id="hero-index" role="group" aria-label="슬라이드 제어"></div>
+      </div>
+    </section>
+    <section class="works" id="works" aria-label="작업 목록">
+      <h2 class="works-title" id="works-title"></h2>
+      <div class="strip" id="works-strip">
+        <p class="side" id="works-side" data-rv="fade"></p>
+        <ul class="cards" id="cards"></ul>
+        <div class="works-foot">
+          <span class="rule" aria-hidden="true"><i></i></span>
+          <p class="hint">이미지를 눌러 자세히 살펴보세요.</p>
+        </div>
+      </div>
+    </section>
+    <div id="features"></div>
+  </main>
+</div>
+<article class="detail" id="detail" hidden aria-labelledby="detail-title">
+  <div class="detail-bar">
+    <button type="button" class="go back" id="detail-back"><i></i><span class="ko">작품 목록으로</span></button>
+    <p class="label detail-count" id="detail-count"></p>
+    <button type="button" class="go" id="detail-skip"><span class="ko">다음 작업</span><i></i></button>
+  </div>
+  <div class="spread">
+    <div class="detail-cover" id="detail-cover"></div>
+    <div class="detail-copy">
+      <h1 class="display detail-title" id="detail-title"></h1>
+      <p class="label detail-meta" id="detail-meta"></p>
+      <p class="detail-text" id="detail-text"></p>
+    </div>
+  </div>
+  <section class="shots" aria-label="상세 사진">
+    <div class="strip" id="shots-strip">
+      <p class="side" data-rv="fade">Detail
+shots</p>
+      <ul class="shots-row" id="shots"></ul>
+    </div>
+  </section>
+  <button type="button" class="next" id="detail-next">
+    <span class="display next-title" id="next-title"></span>
+    <span class="go"><i></i><span class="ko">다음 작업</span></span>
+  </button>
+</article>
+<footer class="foot">
+  <a class="mark" href="#home"><span data-brand></span></a>
+  <p class="label">Selected works — <span data-year></span></p>
+  <a class="go" href="#home"><span class="ko">맨 위로</span><svg viewBox="0 0 7 26" aria-hidden="true"><path d="M3.5 26V4"/><path d="M0 6l3.5-6 3.5 6z" stroke="none"/></svg></a>
+</footer>
+<dialog class="lb" id="lightbox" aria-label="사진 크게 보기">
+  <button type="button" class="lb-close" id="lb-close" aria-label="확대 사진 닫기"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 1l14 14M15 1L1 15"/></svg></button>
+  <div class="lb-stage" id="lb-stage"></div>
+  <div class="lb-foot">
+    <button type="button" class="go back" id="lb-prev" aria-label="이전 사진"><i></i></button>
+    <div><p class="label" id="lb-count"></p><p class="lb-cap" id="lb-cap"></p></div>
+    <button type="button" class="go" id="lb-next" aria-label="다음 사진"><i></i></button>
+  </div>
+</dialog>
+<noscript><p style="padding:40px 9.5vw">이 포트폴리오는 자바스크립트를 켜야 볼 수 있습니다.</p></noscript>
+<script id="portfolio-data" type="application/json">{"brand": "STUDIO", "headline": "A quiet point\nof view.", "subtitle": "작업의 결과와 그 안에 담긴 이야기를 소개합니다.", "heroCaption": "두 개의 작업을 사진과 글로\n차례대로 소개합니다.", "worksTitle": "두 개의 작업,\n각자의 이야기.", "worksLabel": "Selected\nworks", "hero": ["", "", ""], "projects": [{"title": "Project 01", "category": "첫 번째 포트폴리오", "year": "", "cover": "", "thumb": "", "summary": "첫 번째 작업을 소개하는 짧은 설명을 입력해 주세요.\n이미지를 누르면 작업의 디테일을 볼 수 있습니다.", "description": "이곳에 첫 번째 작업의 자세한 설명을 입력해 주세요.\n\n작업의 배경, 진행 과정, 중요하게 생각한 부분과 완성된 결과를 차례로 소개할 수 있습니다.", "photos": ["", "", ""], "captions": ["", "", ""]}, {"title": "Project 02", "category": "두 번째 포트폴리오", "year": "", "cover": "", "thumb": "", "summary": "두 번째 작업을 소개하는 짧은 설명을 입력해 주세요.\n이미지를 누르면 작업의 디테일을 볼 수 있습니다.", "description": "이곳에 두 번째 작업의 자세한 설명을 입력해 주세요.\n\n작업의 배경, 진행 과정, 중요하게 생각한 부분과 완성된 결과를 차례로 소개할 수 있습니다.", "photos": ["", "", ""], "captions": ["", "", ""]}]}</script>
+<script>
+'use strict';
+(() => {
+const data = JSON.parse(document.getElementById('portfolio-data').textContent);
+const $ = id => document.getElementById(id);
+const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+const pad = n => String(n).padStart(2, '0');
+const or = (value, fallback) => typeof value === 'string' ? value : fallback;
+const root = document.documentElement;
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hangul = /[\u1100-\u11FF\u3130-\u318F\uAC00-\uD7AF]/;
+// Korean and Latin need different size, leading and tracking, so every text node says which it holds.
+const say = (node, text) => { node.textContent = text; node.classList.toggle('ko', hangul.test(text)); return node; };
+const home = $('home'), detail = $('detail'), lb = $('lightbox');
+const projects = data.projects;
+
+function plate(label, num, tone) {
+  const p = el('span', 'plate ' + tone);
+  p.setAttribute('role', 'img');
+  p.setAttribute('aria-label', label + ' 자리');
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 120 80');
+  svg.setAttribute('aria-hidden', 'true');
+  const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  t.setAttribute('x', '60'); t.setAttribute('y', '62'); t.setAttribute('text-anchor', 'middle');
+  t.textContent = num;
+  svg.append(t);
+  p.append(svg, el('span', 'plate-label', label));
+  return p;
+}
+function media(src, alt, num, tone, eager) {
+  if (!src) return plate(alt, num, tone);
+  const img = el('img');
+  img.alt = alt; img.decoding = 'async'; img.loading = eager ? 'eager' : 'lazy';
+  img.addEventListener('error', () => img.replaceWith(plate(alt, num, tone)), {once: true});
+  img.src = src;
+  return img;
+}
+const photo = node => { const w = el('span', 'photo'); w.append(node); return w; };
+const ratio = img => Math.min(2.4, Math.max(.5, img.naturalWidth / img.naturalHeight)).toFixed(3);
+// resolves once an image can be painted, but never holds a transition for long
+const painted = img => img && img.tagName === 'IMG' && img.decode ? Promise.race([img.decode().catch(() => {}), new Promise(r => setTimeout(r, 400))]) : Promise.resolve();
+// White words sit on every hero photo, so each photo is shaded only as much as its own brightness needs.
+function shade(slide, img) {
+  try {
+    // a thumbnail cropped the way the hero crops the photo right now, so regions can be given in fractions of the hero
+    const hero = $('hero'), W = 32, H = Math.max(10, Math.round(W * hero.clientHeight / Math.max(hero.clientWidth, 1)));
+    const c = el('canvas'); c.width = W; c.height = H;
+    const g = c.getContext('2d'), k = Math.max(W / img.naturalWidth, H / img.naturalHeight);
+    g.drawImage(img, (W - img.naturalWidth * k) / 2, (H - img.naturalHeight * k) / 2, img.naturalWidth * k, img.naturalHeight * k);
+    // brightest spot of a region: the words have to hold over that, not over the average
+    const peak = (x0, y0, x1, y1) => {
+      const x = Math.floor(x0 * W), y = Math.floor(y0 * H);
+      const d = g.getImageData(x, y, Math.max(1, Math.ceil(x1 * W) - x), Math.max(1, Math.ceil(y1 * H) - y)).data;
+      let top = .01;
+      for (let i = 0; i < d.length; i += 4) top = Math.max(top, (d[i] * .2126 + d[i + 1] * .7152 + d[i + 2] * .0722) / 255);
+      return top;
+    };
+    // brightness that may remain behind white text: about .4 for small text (4.5:1, with room for highlights the thumbnail
+    // averages away), .56 for the large title (3:1), .31 for the dimmed numerals
+    const veil = Math.max(1 - .38 / peak(.15, .3, .85, .56), 1 - .56 / peak(.08, .14, .92, .45));
+    const low = Math.max(1 - .42 / peak(0, .72, .6, 1), 1 - .31 / peak(.55, .88, 1, 1));
+    slide.style.setProperty('--veil', Math.min(.66, Math.max(.14, veil)).toFixed(2));
+    slide.style.setProperty('--low', Math.min(.74, Math.max(.5, low)).toFixed(2));
+  } catch (e) {}
+}
+function arrow(text) {
+  const b = el('button', 'go'); b.type = 'button';
+  b.append(el('i'), say(el('span'), text));
+  return b;
+}
+
+/* brand, year */
+document.title = data.brand + ' — Portfolio';
+document.querySelectorAll('[data-brand]').forEach(n => { n.textContent = data.brand; n.parentNode.setAttribute('aria-label', data.brand + ' — 처음으로'); });
+document.querySelectorAll('[data-year]').forEach(n => n.textContent = new Date().getFullYear());
+const worksLink = el('a', '', 'Works'); worksLink.href = '#works';
+$('nav').append(worksLink);
+
+/* 1 · hero */
+say($('hero-title'), data.headline);
+say($('hero-sub'), data.subtitle).hidden = !data.subtitle;
+const caption = or(data.heroCaption, '');
+say($('hero-caption'), caption).hidden = !caption;
+const heroShots = data.hero.filter(Boolean);
+const slides = (heroShots.length ? heroShots : data.hero.map(() => '')).map((src, i) => {
+  const s = el('div', 'slide');
+  if (i) s.setAttribute('aria-hidden', 'true');
+  const m = media(src, '대표 사진 ' + (i + 1), pad(i + 1), 'night n' + (i % 3 + 1), true);
+  if (src) { if (m.complete && m.naturalWidth) shade(s, m); else m.addEventListener('load', () => shade(s, m), {once: true}); }
+  s.append(m);
+  $('slides').append(s);
+  return s;
+});
+const DWELL = 6200;
+const many = slides.length > 1;
+let at = 0, held = reduced, sweep = null, clock = 0, tidy = 0, heroInView = true;
+const running = () => many && !held && !document.hidden && !home.hidden && heroInView;
+const dots = many ? slides.map((_, i) => {
+  const b = el('button', '', pad(i + 1)); b.type = 'button';
+  b.setAttribute('aria-label', '대표 사진 ' + (i + 1) + ' 보기');
+  b.setAttribute('aria-current', i === 0);
+  b.append(el('b'));
+  b.addEventListener('click', () => show(i));
+  $('hero-index').append(b);
+  return b;
+}) : [];
+const toggle = el('button', 'toggle'); toggle.type = 'button';
+toggle.innerHTML = '<svg class="i-pause" viewBox="0 0 10 10" aria-hidden="true"><path d="M3 1v8M7 1v8"/></svg><svg class="i-play" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 1l6 4-6 4z"/></svg>';
+function paintToggle() {
+  toggle.classList.toggle('is-held', held);
+  toggle.setAttribute('aria-label', held ? '슬라이드 자동 재생' : '슬라이드 일시 정지');
+}
+// The hairline under the current number is the timer itself: when it finishes filling, the next photo comes in.
+function arm() {
+  if (sweep) sweep.cancel();
+  clearTimeout(clock); sweep = null;
+  if (!many) return;
+  const line = dots[at].lastElementChild;
+  if (line.animate) {
+    sweep = line.animate([{transform: 'scaleX(0)'}, {transform: 'scaleX(1)'}], {duration: DWELL, fill: 'forwards'});
+    sweep.onfinish = () => show(at + 1);
+    if (!running()) sweep.pause();
+  } else if (running()) clock = setTimeout(() => show(at + 1), DWELL);
+}
+function sync() {
+  if (sweep) { if (running()) sweep.play(); else sweep.pause(); }
+  else if (many) { clearTimeout(clock); if (running()) clock = setTimeout(() => show(at + 1), DWELL); }
+}
+function show(i) {
+  const to = ((i % slides.length) + slides.length) % slides.length;
+  if (to !== at) {
+    const from = slides[at];
+    slides.forEach(s => s.classList.remove('was-on'));
+    from.classList.replace('is-on', 'was-on');
+    from.setAttribute('aria-hidden', 'true');
+    slides[to].classList.add('is-on');
+    slides[to].removeAttribute('aria-hidden');
+    clearTimeout(tidy);
+    tidy = setTimeout(() => from.classList.remove('was-on'), 1800);
+    dots[at].setAttribute('aria-current', 'false');
+    dots[to].setAttribute('aria-current', 'true');
+    at = to;
+  }
+  arm();
+}
+if (many) {
+  $('hero-index').prepend(toggle);
+  toggle.addEventListener('click', () => { held = !held; paintToggle(); sync(); });
+  paintToggle();
+  let sx = null, sy = 0;
+  const hero = $('hero');
+  hero.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse' && !e.target.closest('a,button')) { sx = e.clientX; sy = e.clientY; } });
+  hero.addEventListener('pointerup', e => {
+    if (sx === null) return;
+    const dx = e.clientX - sx, dy = e.clientY - sy; sx = null;
+    if (Math.abs(dx) > 44 && Math.abs(dx) > Math.abs(dy) * 1.4) show(at + (dx < 0 ? 1 : -1));
+  });
+  hero.addEventListener('pointercancel', () => { sx = null; });
+  document.addEventListener('visibilitychange', sync);
+}
+
+/* 2 · cards, 3 · 4 · features */
+const worksTitle = or(data.worksTitle, '두 개의 작업,\n각자의 이야기.');
+say($('works-title'), worksTitle).hidden = !worksTitle;
+say($('works-side'), or(data.worksLabel, 'Selected\nworks'));
+$('works-strip').style.setProperty('--n', projects.length);
+const covers = [];
+projects.forEach((p, i) => {
+  const num = pad(i + 1), alt = p.title + ' 대표 사진';
+  const link = el('a'); link.href = '#project-' + (i + 1);
+  link.setAttribute('aria-label', 'Project ' + num);
+  link.append(el('span', 'w', 'Project '), num);
+  $('nav').append(link);
+
+  const card = el('button', 'card'); card.type = 'button';
+  card.dataset.rv = 'lift';
+  card.style.setProperty('--d', i * .14 + 's');
+  card.setAttribute('aria-label', p.title + ' 상세 보기');
+  const cap = el('span', 'cap');
+  cap.append(say(el('span', 'cap-title'), p.title));
+  if (p.category) cap.append(el('span', 'cap-cat', p.category));
+  if (p.year) cap.append(el('span', 'cap-year', p.year));
+  card.append(photo(media(p.thumb || p.cover, alt, num, i % 2 ? 't2' : 't1')), cap);
+  card.addEventListener('click', () => openProject(i, card));
+  const point = () => $('works-strip').style.setProperty('--at', i);
+  card.addEventListener('pointerenter', point);
+  card.addEventListener('focus', point);
+  const li = el('li'); li.append(card);
+  $('cards').append(li);
+
+  const section = el('section', 'feature' + (i % 2 ? ' flip' : ''));
+  section.id = 'project-' + (i + 1);
+  const shot = el('button', 'feature-photo'); shot.type = 'button';
+  shot.dataset.rv = 'wipe';
+  shot.setAttribute('aria-label', p.title + ' 상세 사진과 설명 보기');
+  shot.append(photo(media(p.cover, alt, num, i % 2 ? 'light' : 'dark')));
+  shot.addEventListener('click', () => openProject(i, shot));
+  const copy = el('div', 'feature-copy');
+  copy.dataset.rv = 'rise';
+  const title = say(el('h2', 'display feature-title'), p.title);
+  title.id = 'feature-title-' + (i + 1);
+  section.setAttribute('aria-labelledby', title.id);
+  const more = arrow('작업 자세히 보기');
+  more.addEventListener('click', () => openProject(i, shot));
+  copy.append(title, say(el('p', 'feature-text'), p.summary), more);
+  section.append(shot, copy);
+  $('features').append(section);
+  covers.push(shot);
+});
+
+/* project page */
+let current = -1, opener = null, enteredAt = -1, homeY = 0, gallery = [], viewing = 0;
+function renderProject(i) {
+  const p = projects[i], num = pad(i + 1);
+  const other = projects.length > 1 ? (i + 1) % projects.length : -1;
+  current = i;
+  detail.classList.toggle('flip', i % 2 === 1);
+  $('detail-count').textContent = num + ' / ' + pad(projects.length);
+  say($('detail-title'), p.title);
+  const meta = [p.category, p.year].filter(Boolean).map(t => say(el('span'), t));
+  $('detail-meta').replaceChildren(...meta);
+  $('detail-meta').hidden = !meta.length;
+  say($('detail-text'), p.description);
+  gallery = [];
+  // the cover is shown whole here; its proportions are already known from the copy on the home view
+  const cover = $('detail-cover'), known = covers[i].querySelector('img');
+  const lead = media(p.cover, p.title + ' 대표 사진', num, i % 2 ? 'light' : 'dark', true);
+  const shape = m => { if (m.naturalHeight) cover.style.setProperty('--r', ratio(m)); };
+  cover.style.removeProperty('--r');
+  if (known) shape(known);
+  if (p.cover) lead.addEventListener('load', () => { shape(lead); layout(); }, {once: true});
+  cover.replaceChildren(photo(lead));
+  const all = p.photos.map((src, j) => ({src, cap: p.captions[j] || ''}));
+  const filled = all.filter(s => s.src);
+  $('shots').replaceChildren(...(filled.length ? filled : all).map((s, j) => {
+    const n = pad(j + 1), alt = p.title + ' 상세 사진 ' + (j + 1);
+    const li = el('li'), b = el('button', 'shot'); b.type = 'button';
+    b.dataset.rv = 'lift';
+    b.style.setProperty('--d', j * .12 + 's');
+    b.disabled = !s.src;
+    const m = media(s.src, alt, n, j % 2 ? 't2' : 't1', true);
+    // each photo keeps its own proportions; the row shares one height
+    if (s.src) m.addEventListener('load', () => { if (m.naturalHeight) li.style.setProperty('--r', ratio(m)); sizeRow(); layout(); }, {once: true});
+    const cap = el('span', 'cap');
+    cap.append(el('span', 'cap-title', n), el('span', 'cap-cat', s.cap || '상세 사진 ' + (j + 1)));
+    b.append(photo(m), cap);
+    if (s.src) {
+      const k = gallery.length;
+      b.setAttribute('aria-label', alt + ' 확대');
+      gallery.push({src: s.src, alt, cap: s.cap, node: b});
+      b.addEventListener('click', () => openPhoto(k));
+    }
+    li.append(b);
+    return li;
+  }));
+  sizeRow();
+  $('detail-skip').hidden = $('detail-next').hidden = other < 0;
+  if (other >= 0) {
+    say($('next-title'), projects[other].title);
+    const label = '다음 작업 — ' + projects[other].title;
+    $('detail-skip').setAttribute('aria-label', label);
+    $('detail-next').setAttribute('aria-label', label);
+  }
+  watch(detail);
+}
+// A tapped photo travels to where it lands in the next view; without View Transitions the view just fades in.
+const canMorph = !reduced && typeof document.startViewTransition === 'function';
+function transit(update, from, to, fallback) {
+  const plain = () => {
+    update();
+    if (!reduced && fallback) { fallback.classList.add('is-entering'); fallback.addEventListener('animationend', () => fallback.classList.remove('is-entering'), {once: true}); }
+  };
+  if (!canMorph) return plain();
+  let landed = null;
+  if (from) from.style.viewTransitionName = 'photo';
+  try {
+    const t = document.startViewTransition(async () => {
+      if (from) from.style.viewTransitionName = '';
+      await update();
+      landed = to && to();
+      if (landed) landed.style.viewTransitionName = 'photo';
+    });
+    const clear = () => { if (landed) landed.style.viewTransitionName = ''; };
+    t.finished.then(clear, clear);
+    t.ready.catch(() => {});
+  } catch (e) {
+    if (from) from.style.viewTransitionName = '';
+    plain();
+  }
+}
+const frame = node => node && node.querySelector('.photo');
+// The frame this page is embedded in can be taller than the window showing it. Track the part that is actually
+// on screen, so a view opened by a tap lands where the visitor is looking.
+let band = null;
+const probe = el('i', 'probe');
+document.body.append(probe);
+function placeZoom() {
+  lb.style.top = band ? band.top + 'px' : '';
+  lb.style.height = band ? Math.max(band.height, Math.min(innerHeight, 320)) + 'px' : '';
+}
+const read = entries => {
+  const r = entries[entries.length - 1].intersectionRect;
+  band = r.height > 0 && r.height < innerHeight - 8 ? {top: r.top, height: r.height} : null;
+  placeZoom();
+};
+// A standing observer only reports when the visible share changes, not when the embedding page merely scrolls,
+// so the position is re-read with a fresh observer whenever it matters.
+const sight = () => new Promise(done => {
+  if (!('IntersectionObserver' in window)) return done();
+  const once = new IntersectionObserver(entries => { once.disconnect(); read(entries); done(); });
+  once.observe(probe);
+  setTimeout(done, 250);
+});
+if ('IntersectionObserver' in window) new IntersectionObserver(read, {threshold: Array.from({length: 21}, (_, i) => i / 20)}).observe(probe);
+// scroll this document; when the frame itself is only partly on screen, ask the embedding page to follow
+function reach(node, y, smooth, block) {
+  const behavior = smooth && !reduced ? 'smooth' : 'auto';
+  scrollTo({top: y, behavior});
+  if (band && node) node.scrollIntoView({block: block || 'start', behavior});
+}
+function openProject(i, from) {
+  const entering = detail.hidden;
+  if (entering) { opener = from; enteredAt = i; homeY = scrollY; }
+  transit(() => {
+    renderProject(i);
+    home.hidden = true; detail.hidden = false;
+    reach(detail, 0);
+    layout(); sync();
+    $('detail-back').focus({preventScroll: true});
+    return painted($('detail-cover').querySelector('img'));
+  }, entering ? frame(from) : null, () => frame($('detail-cover')), detail);
+}
+function closeProject() {
+  if (detail.hidden) return;
+  // leaving from a different project than the one entered: land on that project's section instead
+  const back = current === enteredAt ? opener : covers[current];
+  transit(() => {
+    detail.hidden = true; home.hidden = false;
+    if (current !== enteredAt) { const r = back.getBoundingClientRect(); homeY = Math.max(0, r.top + scrollY - (innerHeight - r.height) / 2); }
+    reach(back, homeY, false, 'center');
+    layout(); sync();
+    if (back) back.focus({preventScroll: true});
+  }, frame($('detail-cover')), () => frame(back), home);
+}
+$('detail-back').addEventListener('click', closeProject);
+[$('detail-skip'), $('detail-next')].forEach(b => b.addEventListener('click', () => openProject((current + 1) % projects.length)));
+
+/* zoomed photo */
+function paintPhoto() {
+  const g = gallery[viewing];
+  const img = el('img'); img.alt = g.alt; img.src = g.src;
+  $('lb-stage').replaceChildren(img);
+  $('lb-count').textContent = pad(viewing + 1) + ' / ' + pad(gallery.length);
+  $('lb-cap').textContent = g.cap || '';
+  $('lb-cap').hidden = !g.cap;
+  lb.classList.toggle('is-single', gallery.length < 2);
+  return img;
+}
+let follow = 0;
+function openPhoto(k) {
+  viewing = k;
+  sight().then(() => {
+    if (lb.open) return;
+    transit(() => {
+      const img = paintPhoto();
+      lb.showModal();
+      root.style.overflow = 'hidden';
+      return painted(img);
+    }, frame(gallery[k].node), () => $('lb-stage').firstElementChild, lb);
+    clearInterval(follow);
+    follow = setInterval(sight, 300);
+  });
+}
+function closePhoto() {
+  if (!lb.open) return;
+  clearInterval(follow);
+  const node = gallery[viewing] && gallery[viewing].node;
+  transit(() => { lb.close(); root.style.overflow = ''; if (node) node.focus({preventScroll: true}); }, $('lb-stage').firstElementChild, () => frame(node));
+}
+const turn = step => { viewing = (viewing + step + gallery.length) % gallery.length; paintPhoto(); };
+$('lb-close').addEventListener('click', closePhoto);
+$('lb-prev').addEventListener('click', () => turn(-1));
+$('lb-next').addEventListener('click', () => turn(1));
+lb.addEventListener('cancel', e => { e.preventDefault(); closePhoto(); });
+lb.addEventListener('close', () => { root.style.overflow = ''; clearInterval(follow); });
+lb.addEventListener('click', e => { if (e.target === lb || e.target === $('lb-stage')) closePhoto(); });
+lb.addEventListener('keydown', e => {
+  if (gallery.length < 2) return;
+  if (e.key === 'ArrowLeft') { e.preventDefault(); turn(-1); }
+  if (e.key === 'ArrowRight') { e.preventDefault(); turn(1); }
+});
+{
+  let sx = null, sy = 0;
+  const stage = $('lb-stage');
+  stage.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') { sx = e.clientX; sy = e.clientY; } });
+  stage.addEventListener('pointerup', e => {
+    if (sx === null) return;
+    const dx = e.clientX - sx, dy = e.clientY - sy; sx = null;
+    if (gallery.length > 1 && Math.abs(dx) > 44 && Math.abs(dx) > Math.abs(dy) * 1.4) turn(dx < 0 ? 1 : -1);
+  });
+  stage.addEventListener('pointercancel', () => { sx = null; });
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !lb.open && !detail.hidden) closeProject(); });
+
+/* in-page links scroll this document only, never the page that embeds it */
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a) return;
+  e.preventDefault();
+  const target = document.getElementById(a.getAttribute('href').slice(1));
+  const section = target && target !== home && !home.hidden ? target : null;
+  reach(section || (home.hidden ? detail : home), section ? section.getBoundingClientRect().top + scrollY : 0, true);
+});
+
+/* sizing that CSS cannot do alone */
+function fit(node, lines) {
+  node.style.fontSize = ''; node.style.overflowWrap = '';
+  let size = parseFloat(getComputedStyle(node).fontSize);
+  const floor = Math.max(24, size * .36);
+  const rows = Math.max(lines, node.textContent.split('\n').length);
+  const over = () => node.scrollWidth > node.clientWidth + 1 || node.getBoundingClientRect().height > rows * parseFloat(getComputedStyle(node).lineHeight) + 2;
+  while (size > floor && over()) { size = Math.max(floor, size * .955); node.style.fontSize = size + 'px'; }
+  if (over()) node.style.overflowWrap = 'anywhere';
+}
+// the detail row may not grow taller than a comfortable photo, however few photos it holds
+function sizeRow() {
+  const row = $('shots');
+  let sum = 0;
+  for (const li of row.children) sum += parseFloat(li.style.getPropertyValue('--r')) || .75;
+  row.style.setProperty('--sum', sum.toFixed(3));
+  row.style.setProperty('--n', row.children.length);
+}
+function layout() {
+  document.querySelectorAll('.mark').forEach(m => { m.classList.remove('is-long'); m.classList.toggle('is-long', m.firstElementChild.scrollWidth > m.clientWidth - 10); });
+  if (!home.hidden) {
+    fit($('hero-title'), 3);
+    document.querySelectorAll('.feature-title').forEach(t => fit(t, 2));
+    // the hero crops its photos differently at every size, so their shade is measured again
+    slides.forEach(s => { const m = s.firstElementChild; if (m.tagName === 'IMG' && m.complete && m.naturalWidth) shade(s, m); });
+  }
+  if (!detail.hidden) {
+    fit($('detail-title'), 3);
+    fit($('next-title'), 1);
+    const first = $('shots').querySelector('.photo');
+    if (first) $('shots-strip').style.setProperty('--card-h', first.offsetHeight + 'px');
+  }
+}
+let queued = 0;
+const relayout = () => { cancelAnimationFrame(queued); queued = requestAnimationFrame(layout); };
+addEventListener('resize', relayout);
+
+/* reveals */
+let watch = () => {};
+if (!reduced && 'IntersectionObserver' in window) {
+  root.classList.add('anim');
+  const seen = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); seen.unobserve(e.target); }
+  }), {threshold: .14});
+  watch = scope => scope.querySelectorAll('[data-rv]:not(.in)').forEach(n => seen.observe(n));
+  new IntersectionObserver(entries => { heroInView = entries[0].isIntersecting; sync(); }).observe($('hero'));
+}
+watch(home);
+
+/* first paint: photo fades up from the dark, then the words arrive once their typeface has */
+layout();
+const first = slides[0].firstElementChild;
+const begin = () => requestAnimationFrame(() => requestAnimationFrame(() => { slides[0].classList.add('is-on'); arm(); }));
+if (first.tagName === 'IMG' && first.decode) first.decode().then(begin, begin); else begin();
+let ready = false;
+const settle = () => { layout(); if (!ready) { ready = true; root.classList.add('is-ready'); } };
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(settle);
+  document.fonts.addEventListener && document.fonts.addEventListener('loadingdone', relayout);
+}
+setTimeout(settle, 1400);
+})();
+</script>
+</body>
+</html>
